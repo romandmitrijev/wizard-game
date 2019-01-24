@@ -1,18 +1,21 @@
 package com.wizard;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Wizard {
     private String name;
     private String surname;
     private int health = 100;
     private int money = 100;
-    private ArrayList<String> knowledgeList = new ArrayList<>();
+    private List<String> knowledgeList = new ArrayList<>();
 
-    //not really needed if you have setters and getters
+    /*
+    not really needed if you have setters and getters
     public void insertSpell(String incomingSpell) {
         knowledgeList.add(incomingSpell);
     }
+    */
 
 
     public String getName() {
@@ -47,7 +50,7 @@ public class Wizard {
         this.money = money;
     }
 
-    public ArrayList<String> getKnowledgeList() {
+    public List getKnowledgeList() {
         return knowledgeList;
     }
 
