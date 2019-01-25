@@ -28,6 +28,7 @@ public class WizardWars {
 
 //--------------------------Testing area---------------------------------------
         WizardShop wizardShop = new WizardShop();
+        Wizard wizard = new Wizard();
         wizardShop.printSpellList();
 
         wizardShop.buySpell("Lucarnum Inflamarae", player);
@@ -40,6 +41,10 @@ public class WizardWars {
         int randomNumber = spellUtilities.getRandomNumberInRange(spells.getSpell("Lucarnum Inflamarae").getMinSpellPower(),
                 spells.getSpell("Lucarnum Inflamarae").getMaxSpellPower());
         System.out.println(randomNumber);
+
+        int afterDamage = wizard.getHealth() - spellUtilities.castHealing("Lucarnum Inflamarae");
+        System.out.println(afterDamage);
+
 
     }
 }
