@@ -45,6 +45,9 @@ public class WizardWars {
         int afterDamage = wizard.getHealth() - spellUtilities.castHealing("Lucarnum Inflamarae");
         System.out.println(afterDamage);
 
+        Opponent opponenent = new Opponent();
 
+        player.setHealth(45);
+        opponenent.decideSpellName(player,opponenent);
     }
 }
