@@ -20,7 +20,7 @@ public class WizardShop {
         spellMenu.put("Lumos Solem", 45);
         spellMenu.put("Everte Statum", 45);
         spellMenu.put("Arania Exumai", 50);
-        spellMenu.put("Avada Kevadra", 100);
+        spellMenu.put("Avada Kedavra", 100);
         spellMenu.put("Vulnera Sanentur", 25);
     }
 

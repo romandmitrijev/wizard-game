@@ -24,7 +24,7 @@ public class Spells {
                 29, 60, 3));
         spellMap.put("Arania Exumai", new Spell("Arania Exumai", 50, 30,
                 36, 55, 4));
-        spellMap.put("Avada Kevadra", new Spell("Avada Kevadra", 100, 100,
+        spellMap.put("Avada Kedavra", new Spell("Avada Kedavra", 100, 100,
                 100, 10, 5));
         spellMap.put("Vulnera Sanentur", new Spell("Vulnera Sanentur", 25, 10,
                 20, 70, 1));
