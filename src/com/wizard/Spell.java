@@ -1,6 +1,5 @@
 package com.wizard;
 
-import java.util.Objects;
 
 /**
  * Spell Word:      Lacarnum Inflamarae

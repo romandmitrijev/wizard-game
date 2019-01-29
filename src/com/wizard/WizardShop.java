@@ -27,7 +27,7 @@ public class WizardShop {
     public void printSpellList() {
         System.out.println("-------------------------");
         for (Map.Entry<String, Integer> someNumber : spellMenu.entrySet()) {
-            System.out.println(someNumber.getKey() + "=> " + someNumber.getValue());
+            System.out.println(someNumber.getKey() + " => " + someNumber.getValue());
         }
         System.out.println("-------------------------");
     }

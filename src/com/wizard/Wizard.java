@@ -10,6 +10,8 @@ public class Wizard {
     private int money = 100;
     private List<String> knowledgeList = new ArrayList<>();
 
+
+
     /*
     not really needed if you have setters and getters
     public void insertSpell(String incomingSpell) {
@@ -56,5 +58,13 @@ public class Wizard {
 
     public void setKnowledgeList(ArrayList<String> knowledgeList) {
         this.knowledgeList = knowledgeList;
+    }
+
+    public boolean isAlive() {
+        if (health > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

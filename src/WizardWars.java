@@ -1,5 +1,6 @@
 import com.wizard.*;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class WizardWars {
@@ -26,28 +27,125 @@ public class WizardWars {
         }
         System.out.println("So " + player.getName() + " " + player.getSurname() + ". Are you ready to play?");
 
-//--------------------------Testing area---------------------------------------
+        // Spell shopping operation
+        System.out.println("You have 100 coins, what spells do you want to buy?");
         WizardShop wizardShop = new WizardShop();
-        Wizard wizard = new Wizard();
-        wizardShop.printSpellList();
+        while (true) {
+            System.out.println("Enter spell name to buy or Done if you are finished");
+            wizardShop.printSpellList();
+            String spellToBuy = scanner.nextLine();
+            if (spellToBuy.equalsIgnoreCase("done")) {
+                System.out.println("You have bought " + player.getKnowledgeList());
+                break;
+            } else {
+                wizardShop.buySpell(spellToBuy, player);
+            }
+        }
 
-        wizardShop.buySpell("Lucarnum Inflamarae", player);
-        System.out.println("You know these spells:");
-        System.out.println(player.getKnowledgeList());
-        System.out.println("Your balance: " +player.getMoney()+" coins");
-
-        SpellUtilities spellUtilities = new SpellUtilities();
+        // Duel operation
+        Opponent opponent = new Opponent();
         Spells spells = new Spells();
-        int randomNumber = spellUtilities.getRandomNumberInRange(spells.getSpell("Lucarnum Inflamarae").getMinSpellPower(),
-                spells.getSpell("Lucarnum Inflamarae").getMaxSpellPower());
-        System.out.println(randomNumber);
+        SpellUtilities spellUtilities = new SpellUtilities();
+        Random random = new Random();
 
-        int afterDamage = wizard.getHealth() - spellUtilities.castHealing("Lucarnum Inflamarae");
-        System.out.println(afterDamage);
 
-        Opponent opponenent = new Opponent();
+        while (player.isAlive() && opponent.isAlive()) {
+            System.out.println("-----------------------");
+            System.out.println("Your Health: " + player.getHealth() + " || Opponent: " + opponent.getHealth());
+            System.out.println("Select spell to cast..."+player.getKnowledgeList());
+            String playerSpell = scanner.nextLine();
+            if (player.getKnowledgeList().contains(playerSpell)) {
+                String opponentSpell = opponent.decideSpellName(player, opponent);
+                int playerSpellSpeed = spells.getSpell(playerSpell).getSpeedRate();
+                int opponentSpellSpeed = spells.getSpell(opponentSpell).getSpeedRate();
 
-        player.setHealth(45);
-        opponenent.decideSpellName(player,opponenent);
+
+                if (playerSpellSpeed == opponentSpellSpeed) {
+                    int randomNumber = random.nextInt(100);
+                    if (randomNumber > 50) {
+                        if (playerSpell.equals("Vulnera Sanentur")) {
+                            int healing = spellUtilities.castHealing(playerSpell);
+                            int newPlayerHealth = player.getHealth() + healing;
+                            System.out.println("You healed " + healing);
+                            player.setHealth(newPlayerHealth);
+                        } else if (opponent.isAlive()) {
+                            int damage = spellUtilities.castDamage(playerSpell);
+                            int newOpponentHealth = opponent.getHealth() - damage;
+                            System.out.println("You did " + damage +" damage");
+                            opponent.setHealth(newOpponentHealth);
+                        }
+                        if (opponentSpell.equals("Vulnera Sanentur")) {
+                            int healing = spellUtilities.castHealing(playerSpell);
+                            int newOpponentHealth = opponent.getHealth() + healing;
+                            System.out.println("Opponent healed " + healing);
+                            opponent.setHealth(newOpponentHealth);
+                        } else if (player.isAlive()) {
+                            int damage = spellUtilities.castDamage(opponentSpell);
+                            int newPlayerHealth = player.getHealth() - damage;
+                            System.out.println("Opponent did " + damage);
+                            player.setHealth(newPlayerHealth);
+                        }
+                    } else if (opponentSpell.equals("Vulnera Sanentur")) {
+                        int healing = spellUtilities.castHealing(playerSpell);
+                        int newOpponentHealth = opponent.getHealth() + healing;
+                        System.out.println("Opponent healed " + healing);
+                        opponent.setHealth(newOpponentHealth);
+                    } else if (player.isAlive()) {
+                        int damage = spellUtilities.castDamage(playerSpell);
+                        int newPlayerHealth = player.getHealth() - damage;
+                        System.out.println("Opponent did " + damage);
+                        player.setHealth(newPlayerHealth);
+                    }
+
+                } else if (opponentSpellSpeed > playerSpellSpeed) {
+                    if (opponentSpell.equals("Vulnera Sanentur")) {
+                        int healing = spellUtilities.castHealing(playerSpell);
+                        int newOpponentHealth = opponent.getHealth() + healing;
+                        System.out.println("Opponent healed " + healing);
+                        opponent.setHealth(newOpponentHealth);
+                    } else if (player.isAlive()) {
+                        int damage = spellUtilities.castDamage(playerSpell);
+                        int newOpponentHealth = opponent.getHealth() - damage;
+                        System.out.println("Opponent did " + damage);
+                        opponent.setHealth(newOpponentHealth);
+                    }
+                    if (playerSpell.equals("Vulnera Sanentur")) {
+                        int healing = spellUtilities.castHealing(playerSpell);
+                        int newPlayerHealth = player.getHealth() + healing;
+                        System.out.println("You healed " + healing);
+                        player.setHealth(newPlayerHealth);
+                    } else if (opponent.isAlive()) {
+                        int damage = spellUtilities.castDamage(playerSpell);
+                        int newOpponentHealth = opponent.getHealth() - damage;
+                        System.out.println("You did " + damage);
+                        opponent.setHealth(newOpponentHealth);
+                    }
+
+                } else if (playerSpell.equals("Vulnera Sanentur")) {
+                    int healing = spellUtilities.castHealing(playerSpell);
+                    int newPlayerHealth = player.getHealth() + healing;
+                    System.out.println("You healed " + healing);
+                    player.setHealth(newPlayerHealth);
+                } else if (opponent.isAlive()) {
+                    int damage = spellUtilities.castDamage(playerSpell);
+                    int newOpponentHealth = opponent.getHealth() - damage;
+                    System.out.println("You did " + damage);
+                    opponent.setHealth(newOpponentHealth);
+                } else if (opponentSpell.equals("Vulnera Sanentur")) {
+                    int healing = spellUtilities.castHealing(playerSpell);
+                    int newOpponentHealth = opponent.getHealth() + healing;
+                    System.out.println("Opponent healed " + healing);
+                    opponent.setHealth(newOpponentHealth);
+                } else if (player.isAlive()) {
+                    int damage = spellUtilities.castDamage(playerSpell);
+                    int newPlayerHealth = player.getHealth() - damage;
+                    System.out.println("Opponent did " + damage);
+                    player.setHealth(newPlayerHealth);
+                }
+
+            } else {
+                System.out.println("You don't have this spell");
+            }
+        }
     }
 }
