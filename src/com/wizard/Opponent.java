@@ -28,7 +28,7 @@ public class Opponent extends Wizard {
                     return "Vulnera Sanentur";
                 }
             }
-        } else if (opponent.getHealth() > player.getHealth()) {
+        } else if (opponent.getHealth() >= player.getHealth()) {
             if (decision < 25) {
                 return "Lumos Solem";
             } else if (decision < 50) {

@@ -10,16 +10,6 @@ public class Wizard {
     private int money = 100;
     private List<String> knowledgeList = new ArrayList<>();
 
-
-
-    /*
-    not really needed if you have setters and getters
-    public void insertSpell(String incomingSpell) {
-        knowledgeList.add(incomingSpell);
-    }
-    */
-
-
     public String getName() {
         return name;
     }
@@ -67,4 +57,10 @@ public class Wizard {
             return false;
         }
     }
+    public void healthRounder(){
+        if (health>100){
+            this.health=100;
+        }
+    }
+
 }
