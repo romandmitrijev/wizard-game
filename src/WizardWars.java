@@ -48,21 +48,21 @@ public class WizardWars {
         SpellUtilities spellUtilities = new SpellUtilities();
         Random random = new Random();
 
-
         while (player.isAlive() && opponent.isAlive()) {
             System.out.println("-----------------------");
             System.out.println("Your Health: " + player.getHealth() + " || Opponent: " + opponent.getHealth());
-            System.out.println("Select spell to cast..."+player.getKnowledgeList());
+            System.out.println("Select spell to cast..." + player.getKnowledgeList());
             String playerSpell = scanner.nextLine();
             if (player.getKnowledgeList().contains(playerSpell)) {
                 String opponentSpell = opponent.decideSpellName(player, opponent);
                 int playerSpellSpeed = spells.getSpell(playerSpell).getSpeedRate();
                 int opponentSpellSpeed = spells.getSpell(opponentSpell).getSpeedRate();
 
-
+                // 1st speed check
                 if (playerSpellSpeed == opponentSpellSpeed) {
                     int randomNumber = random.nextInt(100);
                     if (randomNumber > 50) {
+                        // random > 50 - player turn
                         if (playerSpell.equals("Vulnera Sanentur")) {
                             int healing = spellUtilities.castHealing(playerSpell);
                             int newPlayerHealth = player.getHealth() + healing;
@@ -71,11 +71,15 @@ public class WizardWars {
                         } else if (opponent.isAlive()) {
                             int damage = spellUtilities.castDamage(playerSpell);
                             int newOpponentHealth = opponent.getHealth() - damage;
-                            System.out.println("You did " + damage +" damage");
+                            System.out.println("You did " + damage + " damage");
                             opponent.setHealth(newOpponentHealth);
+                        } else {
+                            System.out.println("You Won!");
+                            break;
                         }
+                        // opponent turn
                         if (opponentSpell.equals("Vulnera Sanentur")) {
-                            int healing = spellUtilities.castHealing(playerSpell);
+                            int healing = spellUtilities.castHealing(opponentSpell);
                             int newOpponentHealth = opponent.getHealth() + healing;
                             System.out.println("Opponent healed " + healing);
                             opponent.setHealth(newOpponentHealth);
@@ -84,9 +88,13 @@ public class WizardWars {
                             int newPlayerHealth = player.getHealth() - damage;
                             System.out.println("Opponent did " + damage);
                             player.setHealth(newPlayerHealth);
+                        } else {
+                            System.out.println("Opponent Won!");
+                            break;
                         }
+                        //random < 50 - opponent turn
                     } else if (opponentSpell.equals("Vulnera Sanentur")) {
-                        int healing = spellUtilities.castHealing(playerSpell);
+                        int healing = spellUtilities.castHealing(opponentSpell);
                         int newOpponentHealth = opponent.getHealth() + healing;
                         System.out.println("Opponent healed " + healing);
                         opponent.setHealth(newOpponentHealth);
@@ -95,20 +103,43 @@ public class WizardWars {
                         int newPlayerHealth = player.getHealth() - damage;
                         System.out.println("Opponent did " + damage);
                         player.setHealth(newPlayerHealth);
+                    } else {
+                        System.out.println("Opponent Won!");
+                        break;
                     }
-
-                } else if (opponentSpellSpeed > playerSpellSpeed) {
-                    if (opponentSpell.equals("Vulnera Sanentur")) {
+                    // player turn
+                    if (playerSpell.equals("Vulnera Sanentur")) {
                         int healing = spellUtilities.castHealing(playerSpell);
+                        int newPlayerHealth = player.getHealth() + healing;
+                        System.out.println("You healed " + healing);
+                        player.setHealth(newPlayerHealth);
+                    } else if (opponent.isAlive()) {
+                        int damage = spellUtilities.castDamage(playerSpell);
+                        int newOpponentHealth = opponent.getHealth() - damage;
+                        System.out.println("You did " + damage + " damage");
+                        opponent.setHealth(newOpponentHealth);
+                    } else {
+                        System.out.println("You Won!");
+                        break;
+                    }
+                }
+                // 2nd speed check - opponent turn
+                if (opponentSpellSpeed > playerSpellSpeed) {
+                    if (opponentSpell.equals("Vulnera Sanentur")) {
+                        int healing = spellUtilities.castHealing(opponentSpell);
                         int newOpponentHealth = opponent.getHealth() + healing;
                         System.out.println("Opponent healed " + healing);
                         opponent.setHealth(newOpponentHealth);
                     } else if (player.isAlive()) {
-                        int damage = spellUtilities.castDamage(playerSpell);
-                        int newOpponentHealth = opponent.getHealth() - damage;
+                        int damage = spellUtilities.castDamage(opponentSpell);
+                        int newPlayerHealth = player.getHealth() - damage;
                         System.out.println("Opponent did " + damage);
-                        opponent.setHealth(newOpponentHealth);
+                        player.setHealth(newPlayerHealth);
+                    } else {
+                        System.out.println("Opponent Won!");
+                        break;
                     }
+                    // player turn
                     if (playerSpell.equals("Vulnera Sanentur")) {
                         int healing = spellUtilities.castHealing(playerSpell);
                         int newPlayerHealth = player.getHealth() + healing;
@@ -119,9 +150,13 @@ public class WizardWars {
                         int newOpponentHealth = opponent.getHealth() - damage;
                         System.out.println("You did " + damage);
                         opponent.setHealth(newOpponentHealth);
+                    } else {
+                        System.out.println("You Won!");
+                        break;
                     }
-
-                } else if (playerSpell.equals("Vulnera Sanentur")) {
+                }
+                // 3rd speed check - player turn
+                else if (playerSpell.equals("Vulnera Sanentur")) {
                     int healing = spellUtilities.castHealing(playerSpell);
                     int newPlayerHealth = player.getHealth() + healing;
                     System.out.println("You healed " + healing);
@@ -131,18 +166,25 @@ public class WizardWars {
                     int newOpponentHealth = opponent.getHealth() - damage;
                     System.out.println("You did " + damage);
                     opponent.setHealth(newOpponentHealth);
-                } else if (opponentSpell.equals("Vulnera Sanentur")) {
-                    int healing = spellUtilities.castHealing(playerSpell);
+                } else {
+                    System.out.println("You Won!");
+                    break;
+                }
+                // opponent turn
+                if (opponentSpell.equals("Vulnera Sanentur")) {
+                    int healing = spellUtilities.castHealing(opponentSpell);
                     int newOpponentHealth = opponent.getHealth() + healing;
                     System.out.println("Opponent healed " + healing);
                     opponent.setHealth(newOpponentHealth);
                 } else if (player.isAlive()) {
-                    int damage = spellUtilities.castDamage(playerSpell);
+                    int damage = spellUtilities.castDamage(opponentSpell);
                     int newPlayerHealth = player.getHealth() - damage;
                     System.out.println("Opponent did " + damage);
                     player.setHealth(newPlayerHealth);
+                } else {
+                    System.out.println("Opponent Won!");
+                    break;
                 }
-
             } else {
                 System.out.println("You don't have this spell");
             }
